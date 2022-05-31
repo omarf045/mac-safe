@@ -49,24 +49,6 @@
               </div>
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:items-center">
-              <button
-                type="button"
-                class="
-                  bg-white
-                  p-1
-                  rounded-full
-                  text-gray-400
-                  hover:text-gray-500
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
-              >
-                <span class="sr-only">View notifications</span>
-                <BellIcon class="h-6 w-6" aria-hidden="true" />
-              </button>
-
               <!-- Profile dropdown -->
               <Menu as="div" class="ml-3 relative">
                 <div>
@@ -203,25 +185,6 @@
                   {{ user.email }}
                 </div>
               </div>
-              <button
-                type="button"
-                class="
-                  ml-auto
-                  bg-white
-                  flex-shrink-0
-                  p-1
-                  rounded-full
-                  text-gray-400
-                  hover:text-gray-500
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
-              >
-                <span class="sr-only">View notifications</span>
-                <BellIcon class="h-6 w-6" aria-hidden="true" />
-              </button>
             </div>
             <div class="mt-3 space-y-1">
               <DisclosureButton
@@ -259,17 +222,16 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/vue";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
+import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 
 const user = {
-  name: "Tom Cook",
+  name: "tom_cook",
   email: "tom@example.com",
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const userNavigation = [
   { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -284,7 +246,6 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
-    BellIcon,
     MenuIcon,
     XIcon,
   },

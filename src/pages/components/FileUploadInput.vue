@@ -2,13 +2,12 @@
   <div class="pb-6">
     <label class="block text-sm font-medium text-gray-700"> Cover photo </label>
     <div
+      :class="[padding]"
       class="
         mt-1
         flex
         justify-center
         px-6
-        pt-5
-        pb-6
         border-2 border-gray-300 border-dashed
         rounded-md
       "
@@ -34,7 +33,7 @@
             class="
               relative
               cursor-pointer
-              bg-white
+              bg-gray-50
               rounded-md
               font-medium
               text-indigo-600
@@ -60,3 +59,11 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    padding: String,
+  },
+};
+</script>

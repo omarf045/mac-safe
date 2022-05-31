@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="justify-center">
     <div class="py-10">
       <header>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,45 +7,39 @@
         </div>
       </header>
       <main>
-        <div class="min-h-full">
-          <main class="mt-8 pb-8">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-              <h1 class="sr-only">MacSafe</h1>
-              <!-- Main 3 column grid -->
-              <div
-                class="
-                  grid grid-cols-1
-                  gap-4
-                  items-start
-                  lg:grid-cols-3 lg:gap-8
-                "
-              >
-                <!-- Left column -->
-                <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-                  <section aria-labelledby="section-1-title">
-                    <h2 class="sr-only" id="section-1-title">Section title</h2>
-                    <div class="rounded-lg bg-white overflow-hidden shadow">
-                      <div class="p-6">HELLO WORLD</div>
-                    </div>
-                  </section>
-                </div>
-
-                <!-- Right column -->
-                <div class="grid grid-cols-1 gap-4">
-                  <section aria-labelledby="section-2-title">
-                    <h2 class="sr-only" id="section-2-title">Section title</h2>
-                    <div class="rounded-lg bg-white shadow">
-                      <div class="p-6">
-                        <NameInput />
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <!-- Replace with your content -->
+          <div class="px-4 py-6 sm:px-0">
+            <!-- content -->
+            <div>
+              <TabsWrapper aria-label="Tabs">
+                <TabItem title="Test Photo">
+                  <div class="rounded-lg bg-white overflow-hidden shadow">
+                    <div>
+                      <div class="p-6 bg-gray-50">
                         <FolderSelectMenu />
-                        <FileUploadInput />
+                        <FileUploadInput padding="pb-14 pt-16" />
+                        <SubmitButton />
                       </div>
                     </div>
-                  </section>
-                </div>
-              </div>
+                  </div>
+                </TabItem>
+                <TabItem title="Add Photo">
+                  <div class="rounded-lg bg-white overflow-hidden shadow">
+                    <div>
+                      <div class="p-6 bg-gray-50">
+                        <NameInput />
+                        <FolderSelectMenu />
+                        <FileUploadInput padding="pb-14 pt-16" />
+                        <SubmitButton />
+                      </div>
+                    </div></div
+                ></TabItem>
+              </TabsWrapper>
             </div>
-          </main>
+            <!-- ends content -->
+          </div>
+          <!-- /End replace -->
         </div>
       </main>
     </div>
@@ -55,13 +49,26 @@
 import FolderSelectMenu from "./components/FolderSelectMenu.vue";
 import NameInput from "./components/NameInput.vue";
 import FileUploadInput from "./components/FileUploadInput.vue";
+import TabsWrapper from "./components/TabsWrapper.vue";
+import TabItem from "./components/TabItem.vue";
+import SubmitButton from "./components/SubmitButton.vue";
+
+import { mapState } from "vuex";
 
 export default {
   components: {
     FolderSelectMenu,
     NameInput,
     FileUploadInput,
-    FileUploadInput,
+    TabItem,
+    TabsWrapper,
+    SubmitButton,
+  },
+  computed: {
+    ...mapState(["tabs"]),
+  },
+  setup() {
+    return {};
   },
 };
 </script>
