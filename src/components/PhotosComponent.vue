@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="overflow-y-auto">
     <div class="flex-1 flex items-stretch overflow-hidden">
       <main class="flex-1 overflow-y-auto">
         <!-- Primary column -->
@@ -505,6 +505,13 @@ const files = [
     source:
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
     current: true,
+  },
+  {
+    name: "IMG_4885.HEIC",
+    size: "3.9 MB",
+    source:
+      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+    current: false,
   },
   // More files...
 ];
