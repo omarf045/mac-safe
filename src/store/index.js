@@ -11,8 +11,7 @@ export default createStore({
   components: {},
   state: {
     sidebarNavigation: [
-      { name: "Home", to: "/", icon: HomeIcon, current: true },
-      { name: "Photos", to: "/photos", icon: PhotographIcon, current: false },
+      { name: "Photos", to: "/", icon: PhotographIcon, current: true },
       { name: "Leaks", to: "/leaks", icon: ChartSquareBarIcon, current: false },
       { name: "Trash", to: "/trash", icon: TrashIcon, current: false },
       { name: "Settings", to: "/settings", icon: CogIcon, current: false },
