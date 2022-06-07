@@ -191,11 +191,67 @@
               </li>
             </ul>
           </section>
+
+          <!-- New Photos (only visible when photos.length == 0) -->
+          <section
+            v-if="photos.length == 0"
+            class="mt-8 pb-16"
+            aria-labelledby="gallery-heading"
+          >
+            <div class="text-center">
+              <svg
+                class="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  vector-effect="non-scaling-stroke"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                />
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No photos</h3>
+              <p class="mt-1 text-sm text-gray-500">
+                Get started by adding a photo.
+              </p>
+              <div class="mt-6">
+                <button
+                  type="button"
+                  class="
+                    inline-flex
+                    items-center
+                    px-4
+                    py-2
+                    border border-transparent
+                    shadow-sm
+                    text-sm
+                    font-medium
+                    rounded-md
+                    text-white
+                    bg-blue-600
+                    hover:bg-blue-700
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-offset-2
+                    focus:ring-blue-500
+                  "
+                >
+                  <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                  Add Photo
+                </button>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
       <!-- Secondary column (hidden on smaller screens) -->
       <aside
+        v-if="photos.length != 0"
         class="
           hidden
           w-96
@@ -498,6 +554,7 @@
 
           <div class="flex">
             <button
+              @click="deleteImage"
               type="button"
               class="
                 flex-1
@@ -546,6 +603,7 @@ import {
   XIcon,
 } from "@heroicons/vue/outline";
 import {
+  PlusIcon,
   PencilIcon,
   PlusSmIcon as PlusSmIconSolid,
   SearchIcon,
@@ -560,28 +618,6 @@ import { mapState, mapMutations } from "vuex";
   { name: "Recently Added", href: "#", current: false },
   { name: "Favorited", href: "#", current: false },
 ];*/
-
-/*const currentFile = {
-  name: "IMG_4985.HEIC",
-  size: "3.9 MB",
-  source:
-    "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-  information: {
-    Created: "June 8, 2020",
-    "Last modified": "June 8, 2020",
-    Dimensions: "4032 x 3024",
-  },
-  sharedWith: [
-    {
-      id: 1,
-      name: "Aimee Douglas",
-    },
-    {
-      id: 2,
-      name: "Andrea McMillan",
-    },
-  ],
-};*/
 
 export default {
   components: {
@@ -602,13 +638,18 @@ export default {
     ViewGridIconSolid,
     ViewListIcon,
     XIcon,
+    PlusIcon,
   },
   /////////////////////////////////////
   computed: {
     ...mapState(["photos", "currentFile"]),
   },
   methods: {
-    ...mapMutations(["changeCurrentPhoto", "currentPhotoAtStart"]),
+    ...mapMutations([
+      "changeCurrentPhoto",
+      "currentPhotoAtStart",
+      "deleteImage",
+    ]),
   },
   //////////////////////////////////////
   setup() {

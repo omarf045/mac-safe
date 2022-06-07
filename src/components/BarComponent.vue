@@ -187,7 +187,8 @@
           </button>
           <div class="flex-1 flex justify-between px-4 sm:px-6">
             <div class="flex-1 flex">
-              <form class="w-full flex md:ml-0" action="#" method="GET">
+              <!-- search bar -->
+              <!--<form class="w-full flex md:ml-0" action="#" method="GET">
                 <label for="search-field" class="sr-only"
                   >Search all files</label
                 >
@@ -235,7 +236,7 @@
                     type="search"
                   />
                 </div>
-              </form>
+              </form>-->
             </div>
             <div class="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
               <!-- Profile dropdown -->

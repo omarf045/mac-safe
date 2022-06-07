@@ -16,7 +16,7 @@
                   pointer-events-none
                 "
               >
-                {{ files.length }} photo(s)
+                {{ trash.length }} photo(s)
               </p>
             </div>
           </div>
@@ -133,7 +133,7 @@
                 xl:grid-cols-4 xl:gap-x-8
               "
             >
-              <li v-for="file in files" :key="file.name" class="relative">
+              <li v-for="file in trash" :key="file.name" class="relative">
                 <div
                   :class="[
                     'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-blue-500',
@@ -214,20 +214,13 @@ import {
   ViewListIcon,
 } from "@heroicons/vue/solid";
 
-const tabs = [
+import { mapState, mapMutations } from "vuex";
+
+/*const tabs = [
   { name: "Recently Viewed", href: "#", current: true },
   { name: "Recently Added", href: "#", current: false },
   { name: "Favorited", href: "#", current: false },
-];
-const files = [
-  {
-    name: "IMG_4985.HEIC",
-    size: "3.9 MB",
-    source:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-  },
-  // More files...
-];
+];*/
 
 export default {
   components: {
@@ -247,10 +240,18 @@ export default {
     ViewListIcon,
     XIcon,
   },
+  /////////////////////////////////////
+  computed: {
+    ...mapState(["trash"]),
+  },
+  methods: {
+    ...mapMutations([""]),
+  },
+  /////////////////////////////////////
   setup() {
     return {
       //tabs,
-      files,
+      //files,
     };
   },
 };

@@ -43,9 +43,9 @@ export default createStore({
       },
       {
         name: "IMG_3385.HEIC",
-        size: "3.9 MB",
+        size: "2.4 MB",
         source:
-          "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+          "https://images.unsplash.com/photo-1654525481564-9d421b2e51f3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=512&q=80",
         current: false,
         information: {
           Created: "May 1, 2022",
@@ -59,15 +59,22 @@ export default createStore({
           },
           {
             id: 2,
-            name: "Andrea McMillan",
+            name: "Carl Ferrerio",
+          },
+          {
+            id: 3,
+            name: "Duke Grant",
           },
         ],
       },
       // More files...
     ],
-
     //currenfFile - Photos Page
-    currentFile: []
+    currentFile: [],
+
+    ////////////////////////////////////////////////////////////////////////////
+    // trashArray - Trash Page
+    trash: []
   },
   getters: {},
   mutations: {
@@ -96,16 +103,17 @@ export default createStore({
       }
     },
 
-
     currentPhotoAtStart(state) {
-      state.photos[0].current = true;
+      if (state.photos.length != 0) {
+        state.photos[0].current = true;
 
-      state.photos.forEach((element) =>
-        element !== state.photos[0]
-          ? (element.current = false)
-          : {}
-      );
-      state.currentFile = state.photos[0]
+        state.photos.forEach((element) =>
+          element !== state.photos[0]
+            ? (element.current = false)
+            : {}
+        );
+        state.currentFile = state.photos[0]
+      }
     },
 
     setCurrentAtRefresh(state) {
@@ -123,6 +131,42 @@ export default createStore({
       });
     },
 
+    /////////////////////////////////////////////////////////
+
+    deleteImage(state) {
+      const index = state.photos.findIndex(element => element.current === true);
+
+      //add element to trash array
+      state.trash.push(state.photos[index])
+
+      state.photos.splice(index, 1)
+
+      if (state.photos.length != 0) {
+        state.photos[0].current = true;
+
+        state.photos.forEach((element) =>
+          element !== state.photos[0]
+            ? (element.current = false)
+            : {}
+        );
+        state.currentFile = state.photos[0]
+      }
+      /*
+      else {
+        
+        state.currentFile.name = "No photos yet"
+        state.currentFile.size = "0 MB"
+        state.currentFile.source = ""
+        state.currentFile.current = false
+        state.currentFile.information = {
+          Created: "",
+          "Last modified": "",
+          Dimensions: "",
+        }
+        state.currentFile.sharedWith = []
+
+      }*/
+    }
   },
   actions: {},
   modules: {},
