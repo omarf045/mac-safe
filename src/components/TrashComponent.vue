@@ -184,6 +184,22 @@
               </li>
             </ul>
           </section>
+
+          <!-- Empty Trash (only visible when trash.length == 0) -->
+          <section
+            v-if="trash.length == 0"
+            class="mt-8 pb-16"
+            aria-labelledby="gallery-heading"
+          >
+            <div class="text-center">
+              <TrashIcon class="mx-auto h-12 w-12 stroke-1 text-gray-400" />
+
+              <h3 class="mt-2 text-sm font-medium text-gray-900">
+                Empty trash
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">No photos deleted yet.</p>
+            </div>
+          </section>
         </div>
       </main>
     </div>
@@ -206,6 +222,7 @@ import {
   MenuAlt2Icon,
   PlusSmIcon as PlusSmIconOutline,
   XIcon,
+  TrashIcon,
 } from "@heroicons/vue/outline";
 import {
   PlusSmIcon as PlusSmIconSolid,
@@ -239,6 +256,7 @@ export default {
     ViewGridIconSolid,
     ViewListIcon,
     XIcon,
+    TrashIcon,
   },
   /////////////////////////////////////
   computed: {

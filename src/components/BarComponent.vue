@@ -302,6 +302,28 @@
                   </MenuItems>
                 </transition>
               </Menu>
+
+              <button
+                v-if="sidebarNavigation[0].current == true"
+                type="button"
+                class="
+                  flex
+                  bg-blue-600
+                  p-1
+                  rounded-full
+                  items-center
+                  justify-center
+                  text-white
+                  hover:bg-blue-700
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-offset-2
+                  focus:ring-blue-500
+                "
+              >
+                <PlusSmIconOutline class="h-6 w-6" aria-hidden="true" />
+                <span class="sr-only">Add file</span>
+              </button>
             </div>
           </div>
         </div>
@@ -324,7 +346,12 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { MenuAlt2Icon, PlusSmIcon, XIcon } from "@heroicons/vue/outline";
+import {
+  MenuAlt2Icon,
+  PlusSmIcon,
+  XIcon,
+  PlusSmIcon as PlusSmIconOutline,
+} from "@heroicons/vue/outline";
 import { SearchIcon } from "@heroicons/vue/solid";
 
 const userNavigation = [
@@ -348,6 +375,7 @@ export default {
     PlusSmIcon,
     SearchIcon,
     XIcon,
+    PlusSmIconOutline,
   },
 
   ///////////////////////////////////////////

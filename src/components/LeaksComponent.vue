@@ -379,12 +379,12 @@ export default {
         {
           name: "Shared photos",
           icon: ShareIcon,
-          amount: "$30,659.45",
+          amount: this.$store.getters.sharedPhotosCount,
         },
         {
           name: "Leaked photos",
           icon: ChartSquareBarIcon,
-          amount: "$30,659.45",
+          amount: this.$store.state.leaks.length,
         },
         // More items...
       ],

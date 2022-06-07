@@ -48,8 +48,8 @@ export default createStore({
           "https://images.unsplash.com/photo-1654525481564-9d421b2e51f3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=512&q=80",
         current: false,
         information: {
-          Created: "May 1, 2022",
-          "Last modified": "June 8, 2022",
+          Created: "Feb 13, 2022",
+          "Last modified": "Mar 12, 2022",
           Dimensions: "4032 x 3024",
         },
         sharedWith: [
@@ -74,9 +74,19 @@ export default createStore({
 
     ////////////////////////////////////////////////////////////////////////////
     // trashArray - Trash Page
-    trash: []
+    trash: [],
+
+    ////////////////////////////////////////////////////////////////////////////
+    // leaksArray - Leaks Page
+    leaks: []
   },
-  getters: {},
+  getters: {
+    sharedPhotosCount(state) {
+      let c = 0
+      state.photos.map((element) => c += element.sharedWith.length)
+      return c
+    }
+  },
   mutations: {
     changeCurrent(state, index) {
       if (!state.sidebarNavigation[index].current) {
@@ -151,21 +161,6 @@ export default createStore({
         );
         state.currentFile = state.photos[0]
       }
-      /*
-      else {
-        
-        state.currentFile.name = "No photos yet"
-        state.currentFile.size = "0 MB"
-        state.currentFile.source = ""
-        state.currentFile.current = false
-        state.currentFile.information = {
-          Created: "",
-          "Last modified": "",
-          Dimensions: "",
-        }
-        state.currentFile.sharedWith = []
-
-      }*/
     }
   },
   actions: {},
