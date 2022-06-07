@@ -43,16 +43,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="bg-gray-50 px-5 py-3">
-                  <div class="text-sm">
-                    <a
-                      :href="card.href"
-                      class="font-medium text-blue-700 hover:text-blue-900"
-                    >
-                      View all
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -322,8 +312,10 @@ import {
 import {
   BellIcon,
   MenuAlt1Icon,
-  ScaleIcon,
+  ChartSquareBarIcon,
   XIcon,
+  FolderIcon,
+  ShareIcon,
 } from "@heroicons/vue/outline";
 import {
   CashIcon,
@@ -334,12 +326,6 @@ import {
   SearchIcon,
 } from "@heroicons/vue/solid";
 
-const cards = [
-  { name: "Account balance", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
-  { name: "Account balance", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
-  { name: "Account balance", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
-  // More items...
-];
 const transactions = [
   {
     id: 1,
@@ -379,11 +365,37 @@ export default {
     SearchIcon,
     XIcon,
   },
+  /////////////////////////////////////
+  computed: {},
+  data() {
+    return {
+      // Cards Array - Leaks Page
+      cards: [
+        {
+          name: "All photos",
+          icon: FolderIcon,
+          amount: this.$store.state.photos.length,
+        },
+        {
+          name: "Shared photos",
+          icon: ShareIcon,
+          amount: "$30,659.45",
+        },
+        {
+          name: "Leaked photos",
+          icon: ChartSquareBarIcon,
+          amount: "$30,659.45",
+        },
+        // More items...
+      ],
+    };
+  },
+  //////////////////////////////////////
   setup() {
     const sidebarOpen = ref(false);
 
     return {
-      cards,
+      //cards,
       transactions,
       statusStyles,
       sidebarOpen,

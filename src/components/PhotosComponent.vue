@@ -16,7 +16,7 @@
                   pointer-events-none
                 "
               >
-                {{ files.length }} photo(s)
+                {{ photos.length }} photo(s)
               </p>
             </div>
           </div>
@@ -133,7 +133,12 @@
                 xl:grid-cols-4 xl:gap-x-8
               "
             >
-              <li v-for="file in files" :key="file.name" class="relative">
+              <li
+                v-for="(file, index) in photos"
+                :key="file.name"
+                class="relative"
+                @click="changeCurrentPhoto(index)"
+              >
                 <div
                   :class="[
                     file.current
@@ -535,7 +540,7 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import {
-  HeartIcon,
+  //HeartIcon,
   MenuAlt2Icon,
   PlusSmIcon as PlusSmIconOutline,
   XIcon,
@@ -548,37 +553,15 @@ import {
   ViewListIcon,
 } from "@heroicons/vue/solid";
 
+import { mapState, mapMutations } from "vuex";
+
 /*const tabs = [
   { name: "Recently Viewed", href: "#", current: true },
   { name: "Recently Added", href: "#", current: false },
   { name: "Favorited", href: "#", current: false },
 ];*/
 
-const files = [
-  {
-    name: "IMG_4985.HEIC",
-    size: "3.9 MB",
-    source:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    current: true,
-  },
-  {
-    name: "IMG_4885.HEIC",
-    size: "3.9 MB",
-    source:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    current: false,
-  },
-  {
-    name: "IMG_4885.HEIC",
-    size: "3.9 MB",
-    source:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    current: false,
-  },
-  // More files...
-];
-const currentFile = {
+/*const currentFile = {
   name: "IMG_4985.HEIC",
   size: "3.9 MB",
   source:
@@ -592,17 +575,13 @@ const currentFile = {
     {
       id: 1,
       name: "Aimee Douglas",
-      imageUrl:
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80",
     },
     {
       id: 2,
       name: "Andrea McMillan",
-      imageUrl:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     },
   ],
-};
+};*/
 
 export default {
   components: {
@@ -624,12 +603,23 @@ export default {
     ViewListIcon,
     XIcon,
   },
+  /////////////////////////////////////
+  computed: {
+    ...mapState(["photos", "currentFile"]),
+  },
+  methods: {
+    ...mapMutations(["changeCurrentPhoto", "currentPhotoAtStart"]),
+  },
+  //////////////////////////////////////
   setup() {
     return {
       //tabs,
-      files,
-      currentFile,
+      //files,
+      //currentFile,
     };
+  },
+  created() {
+    this.currentPhotoAtStart();
   },
   data() {
     return {
