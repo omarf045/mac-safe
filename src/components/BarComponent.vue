@@ -1,7 +1,9 @@
 <template>
   <div class="h-full flex">
     <!-- Narrow sidebar -->
-    <div class="hidden w-28 bg-blue-700 overflow-y-auto md:block">
+
+    <!-- render if is not on login, signup, landing, etc -->
+    <div v-if="!isOut" class="hidden w-28 bg-blue-700 overflow-y-auto md:block">
       <div class="w-full py-6 flex flex-col items-center">
         <div class="flex-shrink-0 flex items-center">
           <img
@@ -41,7 +43,9 @@
     </div>
 
     <!-- Mobile menu -->
-    <TransitionRoot as="template" :show="mobileMenuOpen">
+
+    <!-- render if is not on login, signup, landing, etc -->
+    <TransitionRoot v-if="!isOut" as="template" :show="mobileMenuOpen">
       <Dialog as="div" class="md:hidden" @close="mobileMenuOpen = false">
         <div class="fixed inset-0 z-40 flex">
           <TransitionChild
@@ -155,7 +159,8 @@
 
     <!-- Content area -->
     <div class="flex-1 flex flex-col overflow-hidden">
-      <header class="w-full">
+      <!-- render if is not on login, signup, landing, etc -->
+      <header v-if="!isOut" class="w-full">
         <div
           class="
             relative
@@ -285,18 +290,29 @@
                       focus:outline-none
                     "
                   >
-                    <MenuItem
+                    <!--<MenuItem
                       v-for="item in userNavigation"
                       :key="item.name"
                       v-slot="{ active }"
                     >
                       <a
-                        :href="item.href"
+                        @click="item.click"
                         :class="[
                           active ? 'bg-gray-100' : '',
                           'block px-4 py-2 text-sm text-gray-700',
                         ]"
                         >{{ item.name }}</a
+                      >
+                    </MenuItem>-->
+
+                    <MenuItem v-slot="{ active }">
+                      <a
+                        @click="signOut"
+                        :class="[
+                          active ? 'bg-gray-100' : '',
+                          'block px-4 py-2 text-sm text-gray-700',
+                        ]"
+                        >Sign out</a
                       >
                     </MenuItem>
                   </MenuItems>
@@ -321,6 +337,32 @@
                   focus:ring-blue-500
                 "
               >
+                <label
+                  for="file-upload"
+                  class="
+                    flex
+                    bg-blue-600
+                    p-1
+                    rounded-full
+                    items-center
+                    justify-center
+                    text-white
+                    hover:bg-blue-700
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-offset-2
+                    focus:ring-blue-500
+                  "
+                >
+                  <span> Upload a file</span>
+                  <input
+                    @change="changeFile"
+                    id="file-upload"
+                    name="file-upload"
+                    type="file"
+                    class="sr-only"
+                  />
+                </label>
                 <PlusSmIconOutline class="h-6 w-6" aria-hidden="true" />
                 <span class="sr-only">Add file</span>
               </button>
@@ -355,11 +397,12 @@ import {
 import { SearchIcon } from "@heroicons/vue/solid";
 
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your Profile", click: "" },
+  { name: "Sign out", click: "signOut" },
 ];
 
 import { mapState, mapMutations } from "vuex";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -383,13 +426,104 @@ export default {
     ...mapState(["sidebarNavigation"]),
   },
   methods: {
-    ...mapMutations(["changeCurrent", "setCurrentAtRefresh"]),
+    ...mapMutations(["changeCurrent", "setCurrentAtRefresh", "uploadArrays"]),
+    updatePage() {
+      if (
+        window.location.pathname.includes("signup") ||
+        window.location.pathname.includes("login") ||
+        window.location.pathname.endsWith("/")
+      ) {
+        this.isOut = true;
+      } else {
+        this.isOut = false;
+      }
+    },
+
+    signOut() {
+      VueCookies.remove("session_cookie");
+      this.$router.push("/");
+    },
+
+    changeFile() {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.void_photo.source = reader.result;
+      };
+
+      this.void_photo.name = event.target.files[0].name;
+      this.void_photo.size = event.target.files[0].size;
+
+      this.void_photo.information.Created =
+        event.target.files[0].lastModifiedDate;
+
+      this.uploadArrays(this.void_photo);
+    },
   },
   created() {
+    this.updatePage();
     this.setCurrentAtRefresh();
   },
   ///////////////////////////////////////////
-
+  data() {
+    return {
+      isOut: false,
+      void_photo: {
+        name: "",
+        size: "",
+        source: "",
+        current: true,
+        information: {
+          Created: "",
+          Dimensions: "1024 x 1024",
+        },
+        sharedWith: [
+          {
+            id: 1,
+            name: "1",
+          },
+          {
+            id: 2,
+            name: "2",
+          },
+          {
+            id: 3,
+            name: "3",
+          },
+          {
+            id: 4,
+            name: "4",
+          },
+          {
+            id: 5,
+            name: "5",
+          },
+          {
+            id: 6,
+            name: "6",
+          },
+          {
+            id: 7,
+            name: "7",
+          },
+          {
+            id: 8,
+            name: "8",
+          },
+          {
+            id: 9,
+            name: "9",
+          },
+        ],
+      },
+    };
+  },
+  watch: {
+    $route() {
+      this.updatePage();
+      this.setCurrentAtRefresh();
+    },
+  },
   setup() {
     const mobileMenuOpen = ref(false);
 

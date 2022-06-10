@@ -5,13 +5,13 @@
 </template>
 
 <script>
-
-import Bar from '@/components/BarComponent.vue'
+import Bar from "@/components/BarComponent.vue";
 
 export default {
   components: {
-    Bar
-  }
-}
+    Bar,
+  },
+  methods: {},
+};
 </script>
 

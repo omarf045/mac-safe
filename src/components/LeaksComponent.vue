@@ -326,6 +326,10 @@ import {
   SearchIcon,
 } from "@heroicons/vue/solid";
 
+import { mapState, mapMutations } from "vuex";
+import axios from "axios";
+import VueCookies from "vue-cookies";
+
 const transactions = [
   {
     id: 1,
@@ -389,6 +393,27 @@ export default {
         // More items...
       ],
     };
+  },
+  methods: {
+    ...mapMutations([]),
+    fetchPhotos() {
+      const path = "http://localhost:8000/api/v1/accounts/";
+      axios
+        .get(path)
+        .then((response) => {
+          const photosArray = response.data.find(
+            (element) =>
+              element.cookie_value === VueCookies.get("session_cookie")
+          );
+          this.$store.state.leaks = photosArray.leaks;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.fetchPhotos();
   },
   //////////////////////////////////////
   setup() {

@@ -232,6 +232,8 @@ import {
 } from "@heroicons/vue/solid";
 
 import { mapState, mapMutations } from "vuex";
+import axios from "axios";
+import VueCookies from "vue-cookies";
 
 /*const tabs = [
   { name: "Recently Viewed", href: "#", current: true },
@@ -263,7 +265,25 @@ export default {
     ...mapState(["trash"]),
   },
   methods: {
-    ...mapMutations([""]),
+    ...mapMutations([]),
+    fetchPhotos() {
+      const path = "http://localhost:8000/api/v1/accounts/";
+      axios
+        .get(path)
+        .then((response) => {
+          const photosArray = response.data.find(
+            (element) =>
+              element.cookie_value === VueCookies.get("session_cookie")
+          );
+          this.$store.state.trash = photosArray.trash;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.fetchPhotos();
   },
   /////////////////////////////////////
   setup() {

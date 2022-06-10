@@ -6,79 +6,43 @@ import {
   ChartSquareBarIcon,
 } from "@heroicons/vue/outline";
 
+import axios from "axios";
+import VueCookies from "vue-cookies";
+
 export default createStore({
   components: {},
   state: {
+
+    form: {
+      username: "",
+      email: "",
+      password: "",
+      photos: {},
+      trash: {},
+      leaks: {},
+      cookie_value: "",
+    },
+
     // BarNavArray - sideBar component
     sidebarNavigation: [
-      { name: "Photos", to: "/", icon: PhotographIcon, current: true },
+      { name: "Photos", to: "/photos", icon: PhotographIcon, current: true },
       { name: "Leaks", to: "/leaks", icon: ChartSquareBarIcon, current: false },
       { name: "Trash", to: "/trash", icon: TrashIcon, current: false },
-      { name: "Settings", to: "/settings", icon: CogIcon, current: false },
+      // { name: "Settings", to: "/settings", icon: CogIcon, current: false },
     ],
     ////////////////////////////////////////////////////////////////////////////
     // Photos Array - Photos Page
-    photos: [
-      {
-        name: "IMG_4985.HEIC",
-        size: "3.9 MB",
-        source:
-          "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-        current: true,
-        information: {
-          Created: "May 1, 2022",
-          "Last modified": "June 8, 2022",
-          Dimensions: "4032 x 3024",
-        },
-        sharedWith: [
-          {
-            id: 1,
-            name: "Orland Douglas"
-          },
-          {
-            id: 2,
-            name: "Andrea McMillan",
-          },
-        ],
-      },
-      {
-        name: "IMG_3385.HEIC",
-        size: "2.4 MB",
-        source:
-          "https://images.unsplash.com/photo-1654525481564-9d421b2e51f3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=512&q=80",
-        current: false,
-        information: {
-          Created: "Feb 13, 2022",
-          "Last modified": "Mar 12, 2022",
-          Dimensions: "4032 x 3024",
-        },
-        sharedWith: [
-          {
-            id: 1,
-            name: "Arr Douglas"
-          },
-          {
-            id: 2,
-            name: "Carl Ferrerio",
-          },
-          {
-            id: 3,
-            name: "Duke Grant",
-          },
-        ],
-      },
-      // More files...
-    ],
+    photos: [{}],
     //currenfFile - Photos Page
     currentFile: [],
 
     ////////////////////////////////////////////////////////////////////////////
     // trashArray - Trash Page
-    trash: [],
+    trash: [{}],
 
     ////////////////////////////////////////////////////////////////////////////
     // leaksArray - Leaks Page
-    leaks: []
+    leaks: [{}]
   },
   getters: {
     sharedPhotosCount(state) {
@@ -133,8 +97,6 @@ export default createStore({
           element.to.length > 1
         ) {
           state.sidebarNavigation[index].current = true;
-        } else if (window.location.href.endsWith("/")) {
-          state.sidebarNavigation[0].current = true;
         } else {
           state.sidebarNavigation[index].current = false;
         }
@@ -161,7 +123,79 @@ export default createStore({
         );
         state.currentFile = state.photos[0]
       }
+
+      ////////////////////////////
+
+      const path = "http://localhost:8000/api/v1/accounts/";
+      axios
+        .get(path)
+        .then((response) => {
+          const photosArray = response.data.find(
+            (element) =>
+              element.cookie_value === VueCookies.get("session_cookie")
+          );
+
+          state.form.username = photosArray.username
+          state.form.email = photosArray.email
+          state.form.password = photosArray.password
+          state.form.cookie_value = photosArray.cookie_value
+          state.form.photos = state.photos
+          state.form.trash = state.trash
+          state.form.leaks = state.leaks
+
+          ////////////////////////////////
+          axios
+            .put(path + state.form.username + "/", state.form)
+            .then((response) => {
+              console.log(response.data)
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      /////////////
+    },
+
+    uploadArrays(state, photosArray) {
+      state.photos.push(photosArray)
+
+      const path = "http://localhost:8000/api/v1/accounts/";
+      axios
+        .get(path)
+        .then((response) => {
+          const photosArray = response.data.find(
+            (element) =>
+              element.cookie_value === VueCookies.get("session_cookie")
+          );
+
+          state.form.username = photosArray.username
+          state.form.email = photosArray.email
+          state.form.password = photosArray.password
+          state.form.cookie_value = photosArray.cookie_value
+          state.form.photos = state.photos
+          state.form.trash = photosArray.trash
+          state.form.leaks = photosArray.leaks
+
+          ////////////////////////////////
+          axios
+            .put(path + state.form.username + "/", state.form)
+            .then((response) => {
+              console.log(response.data)
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
+
   },
   actions: {},
   modules: {},
